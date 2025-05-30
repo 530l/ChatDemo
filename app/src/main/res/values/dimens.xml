@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="message_group_top_margin">8dp</dimen>
+</resources> 
