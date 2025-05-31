@@ -34,7 +34,7 @@ class CInputPanel : LinearLayout, IInputPanel {
     private var lastPanelType = panelType // 上一次显示的面板类型
     private var isKeyboardOpened = false // 软键盘是否打开的标记
 
-    // 新增：发送消息的高阶函数回调
+    // 发送消息的高阶函数回调
     private var onSendMessage: ((String) -> Unit)? = null
 
     companion object {
