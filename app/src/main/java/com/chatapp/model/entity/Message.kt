@@ -1,4 +1,4 @@
-package com.chatapp
+package com.chatapp.model.entity
 
 data class Message(
     val sender: String, // 发送者，可以是 "me" 或 "other"
@@ -7,4 +7,4 @@ data class Message(
     val imageResId: Int? = null, // 图片资源的 ID，可能为空
     var showSenderInfo: Boolean = true, // 是否显示发送者信息（头像和昵称）
     var showTimestamp: Boolean = true // 是否显示时间戳
-) 
+)

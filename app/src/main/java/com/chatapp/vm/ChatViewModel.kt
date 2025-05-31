@@ -1,8 +1,10 @@
-package com.chatapp
+package com.chatapp.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.chatapp.R
+import com.chatapp.model.entity.Message
 import java.util.Date
 
 class ChatViewModel : ViewModel() {
@@ -29,10 +31,8 @@ class ChatViewModel : ViewModel() {
         if (messageList.isNotEmpty()) {
             // 检查是否需要显示发送者信息
             newMessage.showSenderInfo = messageList.last().sender != newMessage.sender
-            
             // 检查是否需要显示时间戳
             newMessage.showTimestamp = newMessage.timestamp - messageList.last().timestamp >= TIMESTAMP_THRESHOLD_MILLIS
-            
             // 如果新消息显示时间戳，检查前一条消息是否需要更新时间戳
             if (newMessage.showTimestamp && !messageList.last().showTimestamp) {
                 messageList.last().showTimestamp = true
@@ -42,8 +42,6 @@ class ChatViewModel : ViewModel() {
 
     private fun loadDummyMessages() {
         messageList.clear()
-        
-        // 添加示例消息
         addMessage(Message("other", "你好！", Date().time - 120000))
         addMessage(Message("me", "你好！", Date().time - 110000))
         addMessage(Message("other", "今天天气不错。", Date().time - 100000))
@@ -56,16 +54,20 @@ class ChatViewModel : ViewModel() {
         addMessage(Message("me", "这些照片真棒！", Date().time - 30000))
         addMessage(Message("other", "谢谢！", Date().time - 20000))
         addMessage(Message("me", "不客气。", Date().time - 10000))
-        addMessage(Message("other", "", Date().time - 5000, R.drawable.ic_dialog_info))
-
+        addMessage(Message("other", "的发生发的撒", Date().time - 5000))
+        addMessage(Message("other", "对方是否", Date().time - 5002))
+        addMessage(Message("other", "我玩儿", Date().time - 5004))
+        addMessage(Message("other", "别人别人别人别人", Date().time - 5005))
+        addMessage(Message("other", "是的方式发", Date().time - 5006))
+        addMessage(Message("other", "健康来了就", Date().time - 5007))
         updateTimestampVisibility()
         _messages.value = messageList.toList()
     }
 
     private fun addMessage(message: Message) {
-        if (messageList.isNotEmpty() && messageList.last().sender == message.sender) {
-            message.showSenderInfo = false
-        }
+//        if (messageList.isNotEmpty() && messageList.last().sender == message.sender) {
+//            message.showSenderInfo = false
+//        }
         messageList.add(message)
     }
 
@@ -80,4 +82,4 @@ class ChatViewModel : ViewModel() {
             messageList[i].showTimestamp = (currentTime - previousTime > TIMESTAMP_THRESHOLD_MILLIS)
         }
     }
-} 
+}

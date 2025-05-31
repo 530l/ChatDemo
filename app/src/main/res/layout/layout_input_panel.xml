@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_voice"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="4dp"
+        android:visibility="gone"
+        app:cib_normal_image_res_id="@drawable/ic_chat_voice_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_voice_pressed" />
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_keyboard"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="4dp"
+        android:visibility="gone"
+        app:cib_normal_image_res_id="@drawable/ic_chat_keyboard_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_keyboard_pressed" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false">
+
+        <com.chatapp.views.CTextButton
+            android:id="@+id/btn_voice_pressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:text="按住说话"
+            android:visibility="gone"
+            android:textColor="@color/c_000000"
+            android:background="@drawable/shape_voice_btn_bg"
+            android:textSize="14sp" />
+
+        <com.chatapp.views.CEditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/shape_common_edittext_bg" />
+    </FrameLayout>
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_expression"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="4dp"
+        app:cib_normal_image_res_id="@drawable/ic_chat_expression_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_expression_pressed" />
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="4dp"
+        android:visibility="visible"
+        app:cib_normal_image_res_id="@drawable/ic_chat_more_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_more_pressed" />
+</merge>

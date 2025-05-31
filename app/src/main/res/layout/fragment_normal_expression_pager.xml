@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_send"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="14dp"
+        android:visibility="gone"
+        app:cib_normal_image_res_id="@drawable/ic_expression_send_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_expression_send_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.chatapp.views.CImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="18dp"
+        android:visibility="gone"
+        app:cib_normal_image_res_id="@drawable/ic_expression_delete_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_expression_delete_pressed"
+        app:layout_constraintRight_toLeftOf="@id/btn_send"
+        app:layout_constraintTop_toTopOf="@id/btn_send" />
+</androidx.constraintlayout.widget.ConstraintLayout>

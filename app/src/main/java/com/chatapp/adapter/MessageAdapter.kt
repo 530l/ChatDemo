@@ -1,4 +1,4 @@
-package com.chatapp
+package com.chatapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +11,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.view.ViewGroup.MarginLayoutParams
+import com.chatapp.R
+import com.chatapp.model.entity.Message
 
+/**
+ * 消息适配器
+ */
 class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffCallback()) {
 
     private val VIEW_TYPE_SENT = 1
