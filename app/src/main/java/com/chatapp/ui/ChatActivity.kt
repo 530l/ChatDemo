@@ -68,6 +68,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         // 初始化键盘监听器
+        // 通过一个KeyboardStatePopupWindow 来监控键盘的状态，
         keyboardHelper = KeyboardHelper()
         keyboardHelper.init(this)
             .bindRootLayout(binding.layoutMain)

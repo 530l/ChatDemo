@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.*
 import android.widget.PopupWindow
 import com.chatapp.utils.DensityUtil
+import androidx.core.graphics.drawable.toDrawable
 
 /**
  * 一个 PopupWindow，用于监听软键盘的显示状态和高度。
@@ -23,7 +24,7 @@ class KeyboardStatePopupWindow(var context: Context, anchorView: View) : PopupWi
         setContentView(contentView)
         width = 0 // 设为0，使其不可见但仍能接收事件
         height = ViewGroup.LayoutParams.MATCH_PARENT
-        setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 透明背景
+        setBackgroundDrawable(Color.TRANSPARENT.toDrawable()) // 透明背景
         softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE // 确保窗口调整以适应软键盘
         inputMethodMode = INPUT_METHOD_NEEDED // 需要输入法
         contentView.viewTreeObserver.addOnGlobalLayoutListener(this) // 添加布局变化监听

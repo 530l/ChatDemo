@@ -398,7 +398,7 @@ class CInputPanel : LinearLayout, IInputPanel {
         UIUtil.hideSoftInput(context, binding.etContent)
         binding.btnExpression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
         binding.btnExpression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
-        GlobalScope.launch(Dispatchers.Main) {
+        MainScope().launch(Dispatchers.Main) {
             delay(100)
             handleAnimator(PanelType.NONE)
         }
