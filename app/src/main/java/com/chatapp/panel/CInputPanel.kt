@@ -374,7 +374,14 @@ class CInputPanel : LinearLayout, IInputPanel {
         }
     }
 
-    override fun setOnLayoutAnimatorHandleListener(listener: ((panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) -> Unit)?) {
+    override fun setOnLayoutAnimatorHandleListener(
+        listener: ((
+            panelType: PanelType,
+            lastPanelType: PanelType,
+            fromValue: Float,
+            toValue: Float
+        ) -> Unit)?
+    ) {
         this.onLayoutAnimatorHandleListener = listener
     }
 

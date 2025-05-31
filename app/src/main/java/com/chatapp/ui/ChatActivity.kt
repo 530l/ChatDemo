@@ -13,15 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chatapp.App
 import com.chatapp.R
 import com.chatapp.adapter.MessageAdapter
-import com.chatapp.databinding.ActivityChat2Binding
+import com.chatapp.databinding.ActivityChatBinding
 import com.chatapp.panel.KeyboardHelper
 import com.chatapp.vm.ChatViewModel
 import com.chatapp.utils.DensityUtil
 import kotlin.getValue
 
-class ChatActivity2 : AppCompatActivity() {
+/**
+ * 聊天界面
+ */
+class ChatActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityChat2Binding
+    private lateinit var binding: ActivityChatBinding
     private lateinit var keyboardHelper: KeyboardHelper
 
     private val viewModel: ChatViewModel by viewModels()
@@ -30,7 +33,7 @@ class ChatActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityChat2Binding.inflate(layoutInflater)
+        binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layout_main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -47,7 +50,7 @@ class ChatActivity2 : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
         messageAdapter = MessageAdapter()
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(this@ChatActivity2)
+            layoutManager = LinearLayoutManager(this@ChatActivity)
             adapter = messageAdapter
         }
 
@@ -56,16 +59,15 @@ class ChatActivity2 : AppCompatActivity() {
             viewModel.sendMessage(it)
         }
 
-        // 新增：设置 CExpressionPanel 的表情选择回调
+        // 设置表情选择的回调
         binding.expressionPanel.onExpressionPicked = {
+            //todo 关于表情包可以再这里转移一下。后续优化
             val currentText = binding.chatInputPanel.getInputText()
             binding.chatInputPanel.setInputText(currentText + it)
-            // 可选：将光标移动到末尾
             binding.chatInputPanel.setCursorToEnd()
-            // 可选：如果希望选择表情后直接显示键盘，可以取消下面这行注释
-            // keyboardHelper.showSoftInput(binding.chatInputPanel.getInputEditText())
         }
 
+        // 初始化键盘监听器
         keyboardHelper = KeyboardHelper()
         keyboardHelper.init(this)
             .bindRootLayout(binding.layoutMain)

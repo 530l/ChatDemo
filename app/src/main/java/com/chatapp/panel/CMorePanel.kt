@@ -19,8 +19,11 @@ class CMorePanel : FrameLayout, IPanel {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        // 加载 "更多" 面板的布局文件
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         LayoutInflater.from(context).inflate(R.layout.layout_more_panel, this, true)
         init()
     }
@@ -41,7 +44,8 @@ class CMorePanel : FrameLayout, IPanel {
     }
 
     private fun init() {
-        // 可以在这里初始化面板内的具体功能按钮等
+        //todo  可以在这里初始化面板内的具体功能按钮等,
+       //      例如：照片 ，视频 ，文件 ，位置 ，红包 ，转账 ，名片 ，语音 ，视频通话 ，红包 ，转账 ，名片 ，语音 ，视频通话
     }
 
     // 用于延迟隐藏面板的 Runnable
@@ -55,14 +59,29 @@ class CMorePanel : FrameLayout, IPanel {
         postDelayed(mMorePanelInvisibleRunnable, 0)
     }
 
+//    /**
+//     * 获取"更多"功能面板的期望高度。
+//     * 高度通常基于已记录的键盘高度进行计算，并可能减去一些固定高度（如输入框本身的高度）。
+//     *
+//     * @return 面板的期望高度（像素值）。
+//     */
+//    override fun getPanelHeight(): Int {
+//        // 示例：键盘高度减去一个大致的输入框高度
+//        return App.instance.keyboardHeight - DensityUtil.dp2px(context, 56.0f)
+//    }
+
     /**
-     * 获取"更多"功能面板的期望高度。
-     * 高度通常基于已记录的键盘高度进行计算，并可能减去一些固定高度（如输入框本身的高度）。
+     * 获取表情面板的期望高度。
+     * 高度通常基于已记录的键盘高度进行计算，并可能加上一些额外的固定高度（如表情类型Tab栏的高度）。
      *
      * @return 面板的期望高度（像素值）。
      */
     override fun getPanelHeight(): Int {
-        // 示例：键盘高度减去一个大致的输入框高度
-        return App.instance.keyboardHeight - DensityUtil.dp2px(context, 56.0f)
+        val keyboardHeight =
+            if (App.instance.keyboardHeight == 0)
+                DensityUtil.getScreenHeight(context) / 5 * 2
+            else
+                App.instance.keyboardHeight
+        return keyboardHeight + DensityUtil.dp2px(context, 36.0f) // 键盘高度 + Tab栏高度
     }
 }

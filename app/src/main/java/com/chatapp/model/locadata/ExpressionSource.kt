@@ -1,4 +1,4 @@
-package com.chatapp.model.datas
+package com.chatapp.model.locadata
 
 
 import com.chatapp.R
@@ -6,9 +6,10 @@ import com.chatapp.model.entity.Expression
 import kotlin.collections.ArrayList
 
 
-class ExpressionManager private constructor() {
+class ExpressionSource private constructor() {
 
     private val normalExpressionList = arrayListOf<Expression>()
+    private val expressionMapByUnique = mutableMapOf<String, Expression>() //  用于快速查找
 
     init {
         init()
@@ -16,13 +17,19 @@ class ExpressionManager private constructor() {
 
     companion object {
         const val NORMAL_COUNT_BY_ROW = 7
-        val instance: ExpressionManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-           ExpressionManager()
+        val instance: ExpressionSource by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+           ExpressionSource()
         }
     }
 
     private fun init() {
         initExpressionData()
+        // 初始化完成后，填充 Map
+        normalExpressionList.forEach {
+            it.unique?.let { uniqueValue ->
+                expressionMapByUnique[uniqueValue] = it
+            }
+        }
     }
 
     private fun initExpressionData() {
@@ -574,5 +581,10 @@ class ExpressionManager private constructor() {
 
     fun getNormalExpressionList(): ArrayList<Expression> {
         return normalExpressionList
+    }
+
+    // 通过 unique 值获取 Expression 对象
+    fun getExpressionByUnique(unique: String): Expression? {
+        return expressionMapByUnique[unique]
     }
 }

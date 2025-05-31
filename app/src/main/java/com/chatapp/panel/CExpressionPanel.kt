@@ -12,7 +12,7 @@ import com.chatapp.R
 import com.chatapp.adapter.ExpressionPagerListAdapter
 import com.chatapp.adapter.ExpressionTypeListAdapter
 import com.chatapp.databinding.LayoutExpressionPanelBinding
-import com.chatapp.model.datas.ExpressionManager
+import com.chatapp.model.locadata.ExpressionSource
 import com.chatapp.model.entity.ExpressionType
 import com.chatapp.utils.DensityUtil
 
@@ -72,7 +72,7 @@ class CExpressionPanel : LinearLayout, IPanel {
         expressionTypeList.add(
             ExpressionType(
                 R.drawable.ic_expression_panel_tab_normal, // 表情类型图标
-                ExpressionManager.instance.getNormalExpressionList() // 获取普通表情列表
+                ExpressionSource.instance.getNormalExpressionList() // 获取普通表情列表
             )
         )
     }

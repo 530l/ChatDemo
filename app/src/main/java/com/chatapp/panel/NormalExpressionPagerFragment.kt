@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chatapp.adapter.ExpressionListAdapter
 import com.chatapp.databinding.FragmentNormalExpressionPagerBinding
-import com.chatapp.model.datas.ExpressionManager
+import com.chatapp.model.locadata.ExpressionSource
 import com.chatapp.model.entity.Expression
 import com.chatapp.views.TopPaddingDecoration
 import com.chatapp.utils.DensityUtil
@@ -66,7 +66,7 @@ class NormalExpressionPagerFragment : Fragment() {
         val bundle = requireArguments()
         expressionList = bundle.getSerializable(KEY_EXPRESSION_LIST) as ArrayList<Expression>
         binding.recyclerView.setHasFixedSize(true)
-        layoutManager = GridLayoutManager(activity, ExpressionManager.Companion.NORMAL_COUNT_BY_ROW)
+        layoutManager = GridLayoutManager(activity, ExpressionSource.Companion.NORMAL_COUNT_BY_ROW)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.addItemDecoration(
             TopPaddingDecoration(

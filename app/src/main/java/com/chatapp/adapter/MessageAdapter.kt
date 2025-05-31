@@ -1,7 +1,13 @@
 package com.chatapp.adapter
 
+import android.content.Context 
+import android.graphics.drawable.Drawable 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +17,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.view.ViewGroup.MarginLayoutParams
+import android.widget.TextView
 import com.chatapp.R
+import com.chatapp.model.locadata.ExpressionSource
 import com.chatapp.model.entity.Message
+import java.util.regex.Pattern 
 
 /**
  * 消息适配器
@@ -71,13 +80,36 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiff
         holder.itemView.layoutParams = layoutParams
     }
 
+    private val expressionPattern = Pattern.compile("\\\$ne#(\\d+)\\^")
+
+    private fun spannableStringWithExpressions(context: Context,
+                                               content: String,
+                                               textView: TextView): SpannableString {
+        val spannableString = SpannableString(content)
+        val matcher = expressionPattern.matcher(content)
+        val expressionSource = ExpressionSource.instance
+
+        while (matcher.find()) {
+            val uniqueTag = matcher.group(0)
+            uniqueTag?.let {
+                expressionSource.getExpressionByUnique(it)?.let { expression ->
+                    val drawable: Drawable? = ContextCompat.getDrawable(context, expression.resId)
+                    drawable?.setBounds(0, 0, (textView.lineHeight * 1.2).toInt(), (textView.lineHeight * 1.2).toInt())
+                    val imageSpan = ImageSpan(drawable!!, ImageSpan.ALIGN_BOTTOM)
+                    spannableString.setSpan(imageSpan, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                }
+            }
+        }
+        return spannableString
+    }
+
     inner class SentMessageViewHolder(
         private val binding: ItemMessageSentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(message: Message) {
             if (message.content != null) {
-                binding.textMessageBody.text = message.content
+                binding.textMessageBody.text = spannableStringWithExpressions(itemView.context, message.content, binding.textMessageBody)
                 binding.textMessageBody.visibility = ViewGroup.VISIBLE
                 binding.imageMessageBody.visibility = ViewGroup.GONE
             } else if (message.imageResId != null) {
@@ -101,7 +133,7 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiff
         
         fun bind(message: Message) {
             if (message.content != null) {
-                binding.textMessageBody.text = message.content
+                binding.textMessageBody.text = spannableStringWithExpressions(itemView.context, message.content, binding.textMessageBody)
                 binding.textMessageBody.visibility = ViewGroup.VISIBLE
                 binding.imageMessageBody.visibility = ViewGroup.GONE
             } else if (message.imageResId != null) {
@@ -128,4 +160,4 @@ class MessageDiffCallback : DiffUtil.ItemCallback<Message>() {
     override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
         return oldItem == newItem
     }
-} 
+}

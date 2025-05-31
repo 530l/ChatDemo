@@ -156,27 +156,33 @@ class KeyboardHelper {
      */
     fun <P : IInputPanel> bindInputPanel(panel: P): KeyboardHelper {
         this.inputPanel = panel
-        inputPanelHeight = panel.getPanelHeight() // 获取并记录输入面板的初始高度
+        // 获取并记录输入面板的初始高度
+        inputPanelHeight = panel.getPanelHeight()
         // 设置输入面板状态变化监听器，用于在 KeyboardHelper 中响应面板切换事件
         panel.setOnInputStateChangedListener(object : OnInputPanelStateChangedListener {
-            override fun onShowVoicePanel() { // 当输入面板请求显示语音面板时
+            // 当输入面板请求显示语音面板时
+            override fun onShowVoicePanel() {
+
                 // 隐藏表情和更多面板
                 (expressionPanel as? ViewGroup)?.visibility = View.GONE
                 (morePanel as? ViewGroup)?.visibility = View.GONE
             }
 
-            override fun onShowInputMethodPanel() { // 当输入面板请求显示软键盘时
+            // 当输入面板请求显示软键盘时
+            override fun onShowInputMethodPanel() {
                 // 隐藏表情和更多面板
                 (expressionPanel as? ViewGroup)?.visibility = View.GONE
                 (morePanel as? ViewGroup)?.visibility = View.GONE
             }
 
-            override fun onShowExpressionPanel() { // 当输入面板请求显示表情面板时
+            // 当输入面板请求显示表情面板时
+            override fun onShowExpressionPanel() {
                 (expressionPanel as? ViewGroup)?.visibility = View.VISIBLE // 显示表情面板
                 (morePanel as? ViewGroup)?.visibility = View.GONE // 隐藏更多面板
             }
 
-            override fun onShowMorePanel() { // 当输入面板请求显示更多面板时
+            // 当输入面板请求显示更多面板时
+            override fun onShowMorePanel() {
                 (morePanel as? ViewGroup)?.visibility = View.VISIBLE // 显示更多面板
                 (expressionPanel as? ViewGroup)?.visibility = View.GONE // 隐藏表情面板
             }
@@ -234,8 +240,17 @@ class KeyboardHelper {
      * @param toValue 动画结束平移值。
      */
     @SuppressLint("ObjectAnimatorBinding")
-    private fun handlePanelMoveAnimator(panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) {
-        Log.d("KeyboardHelper", "handlePanelMoveAnimator: panelType = $panelType, lastPanelType = $lastPanelType, from = $fromValue, to = $toValue")
+    private fun handlePanelMoveAnimator(
+        panelType: PanelType,
+        lastPanelType: PanelType,
+        fromValue: Float,
+        toValue: Float
+    ) {
+        Log.d(
+            "KeyboardHelper",
+            "handlePanelMoveAnimator:" +
+                    " panelType = $panelType, lastPanelType = $lastPanelType, from = $fromValue, to = $toValue"
+        )
 
         // 创建 RecyclerView 和输入面板的平移动画
         val recyclerViewTranslationYAnimator: ObjectAnimator =
@@ -246,28 +261,37 @@ class KeyboardHelper {
         var panelTranslationYAnimator: ObjectAnimator? = null // 目标面板（表情/更多）的平移动画
 
         // 根据目标面板类型，重置其他面板状态并创建目标面板的动画
-        when(panelType) {
+        when (panelType) {
             PanelType.INPUT_MOTHOD, PanelType.VOICE -> { // 切换到输入法或语音
                 expressionPanel?.reset() // 隐藏表情面板
                 morePanel?.reset() // 隐藏更多面板
             }
+
             PanelType.EXPRESSION -> { // 切换到表情面板
                 morePanel?.reset() // 隐藏更多面板
-                panelTranslationYAnimator = ObjectAnimator.ofFloat(expressionPanel as? View, "translationY", fromValue, toValue)
+                panelTranslationYAnimator = ObjectAnimator.ofFloat(
+                    expressionPanel as? View,
+                    "translationY",
+                    fromValue,
+                    toValue
+                )
             }
+
             PanelType.MORE -> { // 切换到更多面板
                 expressionPanel?.reset() // 隐藏表情面板
-                panelTranslationYAnimator = ObjectAnimator.ofFloat(morePanel as? View, "translationY", fromValue, toValue)
+                panelTranslationYAnimator =
+                    ObjectAnimator.ofFloat(morePanel as? View, "translationY", fromValue, toValue)
             }
+
             PanelType.NONE -> { // 隐藏所有特殊面板
-                 expressionPanel?.reset()
-                 morePanel?.reset()
+                expressionPanel?.reset()
+                morePanel?.reset()
             }
         }
 
         val animatorSet = AnimatorSet()
-        animatorSet.duration = 250 // 动画时长
-        animatorSet.interpolator = DecelerateInterpolator() // 减速插值器
+        animatorSet.duration = 250
+        animatorSet.interpolator = DecelerateInterpolator()
 
         val animators = mutableListOf<Animator>()
         animators.add(inputPanelTranslationYAnimator)
@@ -276,7 +300,7 @@ class KeyboardHelper {
         }
         panelTranslationYAnimator?.let { animators.add(it) }
 
-        animatorSet.playTogether(animators) // 同时播放所有动画
+        animatorSet.playTogether(animators)
         animatorSet.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationEnd(animation: Animator) {
@@ -285,6 +309,7 @@ class KeyboardHelper {
                 (expressionPanel as? ViewGroup)?.requestLayout()
                 (morePanel as? ViewGroup)?.requestLayout()
             }
+
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
         })
